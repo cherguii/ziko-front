@@ -1,0 +1,427 @@
+<div class="header">
+
+  <!-- Breadcrumbs -->
+  <div class="h-full flex flex-col pt-1">
+    <div class="p-6 pb-0 flex-none container" style="padding-top: 15px;">
+      <div class="px-6 py-0 flex flex-col pt-1" style="padding-left: 0.35rem;">
+        <vex-page-layout-header class="pb-1 flex flex-col items-start justify-center">
+          <div class="w-full flex flex-col sm:flex-row justify-between">
+            <div>
+              <vex-breadcrumbs [crumbs]="[currentArticle.Categorie, currentArticle.Titre]"></vex-breadcrumbs>
+            </div>    
+          </div>
+        </vex-page-layout-header>
+      </div>
+    </div> 
+  </div>
+  <!-- END : Breadcrumbs -->
+
+  <div class="container p-gutter grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 pt-1" style="padding-left: 10px; padding-right: 5px;">
+
+    <!-- Row Panier : Visible Desctok  -->
+    <div [class.hidden]="mobileQuery"  class="sm:col-span-3">
+      <div class="flex flex-col md:flex-row md:items-start">
+        <div class="flex-auto">
+          <div class="card">
+            <div class="px-gutter py-4 border-b">
+              <h1 class="font-bold title m-0" style="font-size: 24px;">{{ currentArticle.Titre }}</h1>
+            </div>
+
+            <!-- Prix -->
+            <div class="px-gutter grid grid-cols-1 sm:grid-cols-1 gap-1 pb-2">
+                  
+              <!-- Prix -->
+              <div class="flex items-center pt-4">    
+                <h1 class="text-primary font-bold title m-0">{{ currentArticle.PrixInitialeUnitaireTexteLibre }}</h1>
+              </div>
+      
+              <!-- Il reste en stock -->
+              <div class="flex items-center">    
+                <div @fadeInRight>
+                  <p class="m-0 body-1">Il reste en stock : </p>
+                  <div class="rounded px-2 py-1 font-medium text-xs flex-none bg-cyan-light text-dark" style="float: left; margin-right: 10px;">
+                    <b>
+                      {{ currentArticle.QuantiteEnStock }} article(s)
+                    </b>                  
+                  </div>
+                </div>
+              </div>
+
+            </div>
+      
+            <form [formGroup]="form" (ngSubmit)="onSubmitCommandForm()">
+
+                <!-- Nom prénom et Téléphone-->
+                <div class="px-gutter flex flex-col sm:flex-row sm:gap-4">
+                  <mat-form-field appearance="outline" class="flex-auto">
+                    <mat-label>Nom et prénom</mat-label>
+                    <input matInput appearance="outline" formControlName="NomPrenom" required>
+                    <mat-error *ngIf="form.controls['NomPrenom'].hasError('required') && form.controls['NomPrenom'].touched">
+                      Le Nom et prénom sont requis.
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="flex-auto">
+                    <mat-label>Téléphone</mat-label>
+                    <input matInput appearance="outline" formControlName="Telephone" required>
+                    <mat-error *ngIf="form.controls['Telephone'].hasError('required') && form.controls['Telephone'].touched">
+                      Le téléphone est requis.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <!-- Wilaya Comune -->
+                <div class="px-gutter flex flex-col sm:flex-row sm:gap-4">
+                  <mat-form-field appearance="outline" class="flex-auto">
+                    <mat-label>Wilaya</mat-label>
+                    <input matInput appearance="outline" formControlName="Wilaya" required>
+                    <mat-error *ngIf="form.controls['Wilaya'].hasError('required') && form.controls['Wilaya'].touched">
+                      La Wilaya est requis.
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="flex-auto">
+                    <mat-label>Commune et adresse de livraison</mat-label>
+                    <input matInput appearance="outline" formControlName="CommuneAdresse" required>
+                    <mat-error *ngIf="form.controls['CommuneAdresse'].hasError('required') && form.controls['CommuneAdresse'].touched">
+                      La Commune et l'adresse sont requis.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <!-- Quantité et button -->
+                <div class="px-gutter flex flex-col sm:flex-row sm:gap-4 pb-6">
+                  <ngx-number-spinner
+                      formControlName="Quantite" 
+                      [value]="1"
+                      [min]="1"
+                      required>
+                  </ngx-number-spinner>
+
+                  <button class="bg-primary text-contrast-white flex-auto" color="primary" mat-stroked-button type="submit" 
+                          style="height: 54px; position: relative; top: 5px; text-transform: uppercase;"
+                          [disabled]="showLoading">
+                    <mat-icon class="ltr:-ml-1 rtl:-mr-1 ltr:mr-2 rtl:ml-2"
+                              style="min-width: 25px;"
+                              svgIcon="mat:shopping_cart"></mat-icon>
+                    <mat-progress-spinner *ngIf="showLoading" mode="indeterminate" [value]="5" diameter="20" color="accent"></mat-progress-spinner>
+                    <span *ngIf="!showLoading">Passer la commande</span>
+                  </button>
+                  
+                </div>
+
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <!-- END : Row Panier -->
+
+    <!-- Row : Photos -->
+    <div class="sm:col-span-2" [ngClass]="{'fixed-div' : !mobileQuery}" *ngIf="galleryImages !== undefined">
+
+      <!-- images 1 -->
+      <div class="px-gutter grid grid-cols-1 sm:grid-cols-1 gap-2" style="padding-left: 2px; padding-right: 2px;">
+          
+        <div class="card max-w-full overflow-hidden" style="height: 250px;">
+            <img [src]="galleryImages[0].modal.img"
+                  (click)="onShowImage(1, galleryImages[0])"
+                  style="cursor: pointer; height: 250px; margin-left: auto;margin-right: auto; object-fit: cover;"/>
+        </div>
+        
+      </div>
+
+      <div class="px-gutter grid grid-cols-2 sm:grid-cols-2 gap-2 mt-4" style="padding-left: 2px; padding-right: 2px;">
+        <!-- images 2 -->
+        <div class="card max-w-full overflow-hidden" style="height: 142px;">
+            <img [src]="galleryImages[1].modal.img"
+                  (click)="onShowImage(1, galleryImages[1])"
+                  style="cursor: pointer; height: 142px; margin-left: auto;margin-right: auto; object-fit: cover;"/>
+        </div>
+        <!-- image 3 -->
+        <div class="card max-w-full overflow-hidden" style="height: 142px;">
+            <img [src]="galleryImages[2].modal.img"
+                  (click)="onShowImage(1, galleryImages[2])"
+                  style="cursor: pointer; height: 142px; margin-left: auto;margin-right: auto; object-fit: cover;"/>
+        </div>
+      </div>
+      
+    </div>
+    <!-- END : Row Photos -->
+
+    <!-- Row Panier : Visible Mobile  -->
+    <div [class.hidden]="!mobileQuery"  class="sm:col-span-3">
+      <div class="flex flex-col md:flex-row md:items-start">
+        <div class="flex-auto">
+          <div class="card">
+            <div class="px-gutter py-4 border-b">
+              <h1 class="font-bold title m-0" style="font-size: 24px;">{{ currentArticle.Titre }}</h1>
+            </div>
+
+            <!-- Prix -->
+            <div class="px-gutter grid grid-cols-1 sm:grid-cols-1 gap-1 pb-2">
+                  
+              <!-- Prix -->
+              <div class="flex items-center pt-4">    
+                <h1 class="text-primary font-bold title m-0">{{ currentArticle.PrixInitialeUnitaireTexteLibre }}</h1>
+              </div>
+      
+              <!-- Il reste en stock -->
+              <div class="flex items-center">    
+                <div @fadeInRight>
+                  <p class="m-0 body-1">Il reste en stock : </p>
+                  <div class="rounded px-2 py-1 font-medium text-xs flex-none bg-cyan-light text-dark" style="float: left; margin-right: 10px;">
+                    <b>
+                      {{ currentArticle.QuantiteEnStock }} article(s)
+                    </b>                  
+                  </div>
+                </div>
+              </div>
+
+            </div>
+      
+            <form [formGroup]="form" (ngSubmit)="onSubmitCommandForm()">
+
+                <!-- Nom prénom et Téléphone-->
+                <div class="px-gutter flex flex-col sm:flex-row sm:gap-4">
+                  <mat-form-field appearance="outline" class="flex-auto">
+                    <mat-label>Nom et prénom</mat-label>
+                    <input matInput appearance="outline" formControlName="NomPrenom" required>
+                    <mat-error *ngIf="form.controls['NomPrenom'].hasError('required') && form.controls['NomPrenom'].touched">
+                      Le Nom et prénom sont requis.
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="flex-auto">
+                    <mat-label>Téléphone</mat-label>
+                    <input matInput appearance="outline" formControlName="Telephone" required>
+                    <mat-error *ngIf="form.controls['Telephone'].hasError('required') && form.controls['Telephone'].touched">
+                      Le téléphone est requis.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <!-- Wilaya Comune -->
+                <div class="px-gutter flex flex-col sm:flex-row sm:gap-4">
+                  <mat-form-field appearance="outline" class="flex-auto">
+                    <mat-label>Wilaya</mat-label>
+                    <input matInput appearance="outline" formControlName="Wilaya" required>
+                    <mat-error *ngIf="form.controls['Wilaya'].hasError('required') && form.controls['Wilaya'].touched">
+                      La Wilaya est requis.
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="flex-auto">
+                    <mat-label>Commune et adresse de livraison</mat-label>
+                    <input matInput appearance="outline" formControlName="CommuneAdresse" required>
+                    <mat-error *ngIf="form.controls['CommuneAdresse'].hasError('required') && form.controls['CommuneAdresse'].touched">
+                      La Commune et l'adresse sont requis.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <!-- Quantité et button -->
+                <div class="px-gutter flex flex-col sm:flex-row sm:gap-4 pb-6">
+                  <ngx-number-spinner
+                      formControlName="Quantite" 
+                      [value]="1"
+                      [min]="1"
+                      required>
+                  </ngx-number-spinner>
+
+                  <button class="bg-primary text-contrast-white flex-auto" color="primary" mat-stroked-button type="submit" 
+                          style="height: 54px; position: relative; top: 5px; text-transform: uppercase;"
+                          [style.margin-top]="mobileQuery ? '20px' : '0px'"
+                          [disabled]="showLoading">
+                    <mat-icon class="ltr:-ml-1 rtl:-mr-1 ltr:mr-2 rtl:ml-2"
+                              style="min-width: 25px;"
+                              svgIcon="mat:shopping_cart"></mat-icon>
+                    <mat-progress-spinner *ngIf="showLoading" mode="indeterminate" [value]="5" diameter="20" color="accent"></mat-progress-spinner>
+                    <span *ngIf="!showLoading">Passer la commande</span>
+                  </button>
+                  
+                </div>
+
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <!-- END : Row Panier -->
+
+    <!-- Row : Date Publication -->
+    <div class="flex-auto sm:col-span-3">
+      <div class="px-gutter py-1" style="padding-left: 0rem;">
+        <h2 class="m-0 body-1" style="font-size: 1rem; padding-bottom: 0px;">
+          Publié : {{ currentArticle.CreatedDateString }}
+        </h2>
+      </div>
+    </div>
+    <!-- END : Row Date Publication -->
+
+    <!-- Row : Description -->
+    <div class="flex-auto sm:col-span-3">
+      <div class="card">
+        <div class="px-gutter py-4 border-b">
+          <h2 class="title m-0" style="font-weight: 700;">Description</h2>
+        </div>
+
+        <div class="px-gutter py-2 grid grid-cols-1 sm:grid-cols-1 gap-4">
+          <div class="py-3 flex items-center" style="font-size: 1rem;" [style.text-align]="isArabicLanguage(currentArticle.Description) ? 'right' : 'left'" [innerHtml]="currentArticle.Description"></div>
+        </div>
+      </div>
+    </div>  
+    <!-- END : Row Description -->
+
+    <!-- Row : Critères -->
+    <div class="flex-auto sm:col-span-3">
+      <div class="card">
+        <div class="px-gutter py-4 border-b">
+          <h2 class="title m-0" style="font-weight: 700;">Critères</h2>
+        </div>
+
+        <div class="px-gutter py-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          
+          <div class="py-3 flex items-center">
+            <div @scaleIn
+                class="w-10 h-10 rounded-full bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon class="icon-sm" svgIcon="mat:storage"></mat-icon>
+            </div>
+
+            <div @fadeInRight>
+              <p class="m-0 body-1">Quantité en stock</p>
+              <div class="rounded px-2 py-1 font-medium text-xs flex-none bg-red-light text-dark" style="float: left; margin-right: 10px; font-weight: 700;"> 
+                {{ currentArticle.QuantiteEnStock }}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-3 flex items-center">
+            <div @scaleIn
+                class="w-10 h-10 rounded-full bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon class="icon-sm" svgIcon="mat:view_quilt"></mat-icon>
+            </div>
+
+            <div @fadeInRight>
+              <p class="m-0 body-1">Etat</p>
+              <div class="rounded px-2 py-1 font-medium text-xs flex-none bg-cyan-light text-dark" style="float: left; margin-right: 10px;"> 
+                Neuf
+              </div>
+            </div>
+          </div>
+
+          <div class="py-3 flex items-center">
+            <div @scaleIn
+                class="w-10 h-10 rounded-full bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon class="icon-sm" svgIcon="mat:business"></mat-icon>
+            </div>
+
+            <div @fadeInRight>
+              <p class="m-0 body-1">Catégorie</p>
+              <div *ngIf="currentArticle.Categorie !== null" class="rounded px-2 py-1 font-medium text-xs flex-none bg-cyan-light text-dark" style="float: left; margin-right: 10px;"> 
+                {{ currentArticle.Categorie }}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-3 flex items-center">
+            <div @scaleIn
+                class="w-10 h-10 rounded-full bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon class="icon-sm" svgIcon="mat:weekend"></mat-icon>
+            </div>
+
+            <div @fadeInRight>
+              <p class="m-0 body-1">Marque</p>
+              <div class="rounded px-2 py-1 font-medium text-xs flex-none bg-cyan-light text-dark" style="float: left; margin-right: 10px;"> 
+                {{ currentArticle.Marque }}
+              </div>
+            </div>
+          </div>
+
+          <div class="py-3 flex items-center">
+            <div @scaleIn
+                class="w-10 h-10 rounded-full bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon class="icon-sm" svgIcon="mat:local_parking"></mat-icon>
+            </div>
+
+            <div @fadeInRight>
+              <p class="m-0 body-1">Gros / Détail</p>
+              <p class="m-0 caption" style="font-weight: 700;">Détails + Gros</p>
+            </div>
+          </div>
+
+          <div class="py-3 flex items-center">
+            <div @scaleIn
+                class="w-10 h-10 rounded-full bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon class="icon-sm" svgIcon="mat:visibility"></mat-icon>
+            </div>
+
+            <div @fadeInRight>
+              <p class="m-0 body-1">Nombre de vue</p>
+              <p class="m-0 caption" style="font-weight: 700;">150</p>
+            </div>
+          </div>        
+
+        </div>
+      </div>
+    </div> 
+    <!-- END : Row Critères -->
+
+    <!-- Row : Contact & Coordonnés -->
+    <div class="flex-auto sm:col-span-3">
+      <div class="card">
+        <div class="px-gutter py-4 border-b">
+          <h2 class="title m-0">Contact & Coordonnés</h2>
+        </div>
+
+        <div class="px-gutter py-3">
+
+          <div class="py-3 flex items-center">
+            <img alt="User Picture" class="flex-none avatar ltr:mr-4 rtl:ml-4" src="assets/img/avatars/avatar.png">
+            <div class="flex-auto">
+              <p class="font-medium" style="font-size: 1.1rem;">
+                {{ currentArticle.Vendeur.Prenom }} {{ currentArticle.Vendeur.Nom }}
+              </p>
+            </div>
+          </div>
+
+          <div class="py-3 flex items-center">
+            <div @scaleIn
+                class="w-10 h-10 rounded-full bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon class="icon-sm" svgIcon="mat:location_on"></mat-icon>
+            </div>
+
+            <p @fadeInRight class="m-0 body-1">
+              {{ currentArticle.Vendeur.Adresse }}
+            </p>
+          </div>
+
+          <div class="py-3 flex items-center">
+            <div @scaleIn
+                class="w-10 h-10 rounded-full bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon class="icon-sm" svgIcon="mat:phone"></mat-icon>
+            </div>
+
+            <p @fadeInRight class="m-0 body-1">
+              {{ currentArticle.Vendeur.Telephone }}
+            </p>
+          </div>
+
+          <div class="py-3 flex items-center">
+            <div @scaleIn
+                class="w-10 h-10 rounded-full bg-primary/10 text-primary ltr:mr-3 rtl:ml-3 flex items-center justify-center">
+              <mat-icon class="icon-sm" svgIcon="mat:alternate_email"></mat-icon>
+            </div>
+
+            <p @fadeInRight class="m-0 body-1">
+              {{ currentArticle.Vendeur.Email }}
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div> 
+    <!-- END : Row Contact & Coordonnés -->
+
+  </div>
+</div>

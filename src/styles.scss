@@ -1,0 +1,89 @@
+@import "~simplebar/dist/simplebar.css";
+@import "~highlight.js/styles/androidstudio.css";
+// Vex Core
+@import "./@vex/styles/core";
+
+:root {
+  // --color-primary: blue;
+  // --color-primary-contrast: white;
+
+  // --color-accent: yellow;
+  // --color-accent-contrast: black;
+
+  // --color-warn: yellow;
+  // --color-warn-contrast: black;
+}
+
+.titi.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.5em 0 1em 0 !important;
+}
+
+.create-annonce .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+// stepper
+.vex-style-dark .mat-stepper-vertical-line::before {
+  border-left-color: #ADAFAC !important;
+}
+
+.mat-stepper-vertical-line::before {
+  border-left-color: #ADAFAC !important;
+}
+
+// input border
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #ADAFAC;
+}
+
+
+/******* input quantity ********/
+.horizontal-wrapper {
+  height: 55px !important;
+  border-radius: 4px !important;
+  position: relative;
+  top: 5px;
+  width: 150px;
+}
+
+.ripple:hover {
+  background: transparent !important;
+}
+
+/******* snackbar ********/
+.snackbar-success {
+  background-color: rgba(24, 206, 15, 0.8);
+  color: #ffffff;
+}
+
+.snackbar-info {
+  background-color: rgba(44, 168, 255, 0.8);
+  color: #ffffff;
+}
+
+.snackbar-warning {
+  background-color: rgba(255, 230, 0, 0.8);
+  color: #ffffff;
+}
+
+.snackbar-danger {
+  background-color: rgba(255, 0, 0, 0.8);
+  color: #ffffff;
+}
+
+@media (max-width: 599px) {
+  .horizontal-wrapper {
+    width: 100% !important;
+  }
+}
+
+/***************  modal-gallery ****************/
+.ks-modal-gallery-backdrop {
+  background: #000 !important;;
+  opacity: 0.85 !important;;
+}
+
+.ks-modal-gallery-panel {
+  z-index: 90000 !important;
+}

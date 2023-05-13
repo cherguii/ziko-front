@@ -1,0 +1,55 @@
+:host {
+  background: var(--toolbar-background);
+  box-sizing: border-box;
+  color: var(--toolbar-color);
+  display: block;
+  white-space: nowrap;
+  width: 100%;
+  z-index: var(--toolbar-z-index);
+}
+
+.toolbar {
+  height: var(--toolbar-height);
+}
+
+a {
+  color: var(--toolbar-color);
+  text-decoration: none;
+}
+
+.bg-danger {
+  --mdb-bg-opacity: 1;
+  background-color: rgba(var(--mdb-danger-rgb),var(--mdb-bg-opacity))!important;
+}
+
+.badge-notification {
+  position: absolute;
+  font-size: .6rem;
+  margin-top: -0.1rem;
+  margin-left: -0.5rem;
+  padding: 0.2em 0.45em;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: .75em;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  left: 35px;
+  top: 1px;
+}
+
+.badge {
+  border-radius: 0.27rem;
+}
+.bg-danger {
+  background-color: rgba(220,76,100,var(--mdb-bg-opacity))!important;
+}
+.rounded-pill {
+  border-radius: 50rem!important;
+}

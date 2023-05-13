@@ -1,0 +1,37 @@
+<div class="text-center py-24 header" style="padding-top: 40px;">
+  <div class="container">
+    <h2 @fadeInUp class="display-2 mt-12 mb-8">Nous vous remercions pour la commande</h2>
+    <h2 *ngIf="this.currentCommand !== undefined" @fadeInUp class="mt-14 mb-8" style="font-size: 23px;">
+      Votre commande est passée et sera traitée dans les plus brefs délais. Assurez-Vous de noter votre numéro de commande qui est :
+    </h2>
+
+    <h2 *ngIf="this.currentCommand === undefined" @fadeInUp class="mt-14 mb-8" style="font-size: 23px;">
+      Votre commande est passée et sera traitée dans les plus brefs délais.
+    </h2>
+
+    <div *ngIf="this.currentCommand !== undefined" class="card p-2 relative hover:shadow-lg trans-shadow flex flex-col items-center max-w-xl mx-auto">
+      <h2 class="text-primary display-1 font-bold mt-4 mb-2"> {{ numeroCommand }} </h2>
+    </div>
+   
+  </div>
+</div>
+
+<div class="py-24 px-gutter header">
+  <h2 class="display-1 mt-0 mb-4 text-center">Vous avez des questions ?</h2>
+  <h3 class="subheading-2 text-hint text-center max-w-lg mx-auto m-0">
+    Appelez-nous à tout moment pour une ou envoyez-nous un mail pour répondre à tout vos questions.</h3>
+
+  <div class="mt-16 max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div class="text-center p-6 border rounded card p-6 relative hover:shadow-lg trans-shadow">
+      <mat-icon class="text-hint icon-3xl" svgIcon="mat:phone_in_talk"></mat-icon>
+      <h3 class="title mb-0 mt-4">06.58.48.50.12</h3>
+      <h4 class="subheading-2 m-0 text-hint">Appelez-nous à tout moment pour une solution rapide</h4>
+    </div>
+
+    <div class="text-center p-6 border rounded card p-6 relative hover:shadow-lg trans-shadow">
+      <mat-icon class="text-hint icon-3xl" svgIcon="mat:mail"></mat-icon>
+      <h3 class="title mb-0 mt-4">admin@ziko.com</h3>
+      <h4 class="subheading-2 m-0 text-hint">Envoyez-nous un mail pour résoudre votre problème</h4>
+    </div>
+  </div>
+</div>
